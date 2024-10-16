@@ -4,6 +4,21 @@
 > The website is created using `Laravel`, the full-stack highly-opinionated web-programming framework.
 
 # 📚 Table of Contents
+- [🌐 `shop.intercogni.com`](#-shopintercognicom)
+- [📚 Table of Contents](#-table-of-contents)
+- [✨ Features](#-features)
+- [🗂️ Database/Model Diagram](#️-databasemodel-diagram)
+- [🎥 Demo Video](#-demo-video)
+- [📸 Screenshots](#-screenshots)
+	- [🏠 Main Page](#-main-page)
+	- [✏️ Editing](#️-editing)
+	- [✅ After Editing](#-after-editing)
+	- [➕ Before Addition](#-before-addition)
+	- [➕ Adding](#-adding)
+	- [✅ After Addition](#-after-addition)
+	- [❌ After Deletion](#-after-deletion)
+- [⚙️ Installation](#️-installation)
+	- [🌐 API Endpoints](#-api-endpoints)
 
 # ✨ Features
 - 🛒 **Product Catalogue**: Display a list of PCs available for purchase.
