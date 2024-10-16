@@ -6,6 +6,9 @@
 # 📚 Table of Contents
 
 # ✨ Features
+- 🛒 **Product Catalogue**: Display a list of PCs available for purchase.
+- 🖥️ **Product Details**: View detailed information about each product.
+- 📱 **Responsive Design**: Optimized for both desktop and mobile devices.
 
 # 🗂️ Database/Model Diagram
 ![alt text](public/database_diagram.png)
@@ -13,6 +16,34 @@
 # 🎥 Demo Video
 
 # 📸 Screenshots
+
+## 🏠 Main Page
+![Main Page](public/ss.main_page.png)
+> The main page of the website showcasing the product catalogue.
+
+## ✏️ Editing
+![Editing](public/ss.editing.png)
+> Interface for editing the details of a product.
+
+## ✅ After Editing
+![After Editing](public/ss.after_editing.png)
+> View of the product after the details have been successfully edited.
+
+## ➕ Before Addition
+![Before Addition](public/ss.before_addition.png)
+> The state of the product list before adding a new product.
+
+## ➕ Adding
+![Adding](public/ss.adding.png)
+> Interface for adding a new product to the catalogue.
+
+## ✅ After Addition
+![After Addition](public/ss.after_addition.png)
+> View of the product list after a new product has been added.
+
+## ❌ After Deletion
+![After Deletion](public/ss.after_deletion.png)
+> The state of the product list after a product has been deleted.
 
 # ⚙️ Installation
 
@@ -51,3 +82,6 @@
 	```
 
 ## 🌐 API Endpoints
+- `POST` `/products/add`: ➕ add a product into the database
+- `POST` `/products/edit`: ✏️ edit one or more properties of an existing product (id is embedded in json of request for streamlining)
+- `DELETE` `/products/delete/{id}`: ❌ delete an existing product from the database
