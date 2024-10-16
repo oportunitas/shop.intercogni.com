@@ -6,6 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/css/app.css','resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Restore scroll position
+            if (localStorage.getItem('scrollPosition')) {
+                window.scrollTo(0, localStorage.getItem('scrollPosition'));
+                localStorage.removeItem('scrollPosition');
+            }
+
+            // Store scroll position before form submission
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function() {
+                    localStorage.setItem('scrollPosition', window.scrollY);
+                });
+            });
+        });
+    </script>
     <title>Product Catalog</title>
     <style>
         [x-cloak] {
@@ -93,14 +109,12 @@
                             <p class="text-xs text-gray-800 dark:text-gray-400">
                                 {{ $product->brand }}
                             </p>
-                            
                             <div class="flex items-center justify-between gap-4">
                                 <a href="#" class="text-2xl font-bold leading-tight text-gray-900 hover:underline dark:text-white">
                                     {{ $product->name }}
                                 </a>
                             </div>
-                            
-                            <p class="text-sm text-gray-800 dark:text-gray-400">
+                            <p class="text-sm text-gray-800 dark:text-gray-300">
                                 {{ $product->description }}
                             </p>
                         </div>
@@ -111,20 +125,32 @@
                                         <span class="bg-{{ $type->color }}-100 w-1/2 mr-10 hover:underline text-orange-500 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
                                             #{{ $type->name }}
                                         </span>
-                                        <div class="w-1/2 text-right text-xs text-gray-800 dark:text-gray-400">
+                                        <div class="w-1/2 text-right text-xs text-gray-800 dark:text-gray-400 italic">
                                             {{ $type->description }}
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
                             <div class="mt-4 flex items-center justify-between gap-4">
-                                <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">${{ $product->price }}</p>
-                                <button @click="open = true; product = {{ json_encode($product) }}; console.log(product)" type="button" class="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium hover:bg-orange-300 focus:outline-none focus:ring-4 bg-orange-400">
-                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
-                                    </svg>
-                                    customize
-                                </button>
+                                <p class="w-1/2 text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">${{ $product->price }}</p>
+                                <div class="flex items-center gap-2 w-1/2">
+                                    <button @click="open = true; product = {{ json_encode($product) }}; console.log(product)" type="button" class="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium hover:bg-orange-300 focus:outline-none focus:ring-4 bg-orange-400">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                                        </svg>
+                                        customize
+                                    </button>
+                                    <form action="{{ route('products.delete', $product->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="inline-flex items-center rounded-lg bg-red-700 px-5 py-2.5 text-sm font-medium hover:bg-red-300 focus:outline-none focus:ring-4 bg-red-400">
+                                            <svg class="w-1/2 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                            delete
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

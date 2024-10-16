@@ -12,3 +12,4 @@ use App\Models\Product;
 Route::get('/', [ProductController::class, 'viewAll']);
 Route::post('/products/add', [ProductController::class, 'add'])->name('products.add');
 Route::post('/products/edit', [ProductController::class, 'edit'])->name('products.edit');
+Route::delete('/products/delete/{id}', [ProductController::class, 'delete'])->name('products.delete');

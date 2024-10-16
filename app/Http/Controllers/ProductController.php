@@ -58,14 +58,14 @@ class ProductController extends Controller
 
         return redirect(url('/'))->with('success', 'Product updated successfully');
     }
-
-    
-    public function delete(Request $request) {
-        $product = Product::findOrFail($request->input('id'));
+    public function delete($id) {
+        $product = Product::findOrFail($id);
 
         $product->types()->detach();
         $product->delete();
 
         return redirect(url('/'))->with('success', 'Product deleted successfully');
     }
+    
+    
 }
