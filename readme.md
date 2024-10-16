@@ -14,6 +14,8 @@
 ![alt text](public/database_diagram.png)
 
 # 🎥 Demo Video
+![demo_video](public/demo_video.webm)
+> The demo video can otherwise be accessed by downloading the file at `public/demo_video.webm`
 
 # 📸 Screenshots
 
