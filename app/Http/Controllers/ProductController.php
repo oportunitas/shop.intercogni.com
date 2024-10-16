@@ -3,41 +3,69 @@
 
 namespace App\Http\Controllers;
 use App\Models\Product;
- // Assuming you have a Category model
+use App\Models\Type;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+
 class ProductController extends Controller
 {
+    public function viewAll() {
+        $products = Product::with('types')->get();
+
+        return view('home', compact('products'));
+    }
+
+    public function add(Request $request) {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        $product = Product::create([
+            'name' => $request->input('name'),
+            'brand' => $request->input('brand'),
+            'price'=> $request->input('price'),
+            'description' => $request->input('description'),
+        ]);
+
+        $types = Type::where('name', $request->input('type'))->get();
+        $product->types()->attach($types);
+
+        return redirect(url('/'))->with('success', 'Product created successfully');
+    }
     
-    // Display a listing of the products
-    public function store(Request $request)
-    {
-   
+    public function edit(Request $request) {
+        $product = Product::findOrFail($request->input('id'));
 
-    // Validate the incoming request
-    $request->validate([
-        'pro_name' => 'required|string|max:255',
-        'brand_id' => 'required|exists:brands,id', // Ensure this ID exists in the brands table
-        'category_id' => 'required|exists:categories,id', // Ensure this ID exists in the categories table
-        'price' => 'required|numeric|min:0',
-        'description' => 'nullable|string',
-    ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
 
-    // Create a new product
-    $product = Product::create([
-        'brand_id' => $request->input('brand_id'),
-        'category_id' => $request->input('category_id'),
-        'price' => $request->input('price'),
-        'stock_quantity' => 10,
-        'slug' => Str::slug($request->input('pro_name')),
-        'description' => $request->input('description'),
-        'product_name' => $request->input('pro_name'),
-        'product_name' => $request->input('pro_name'),
+        $product->update([
+            'name' => $request->input('name'),
+            'brand' => $request->input('brand'),
+            'price' => $request->input('price'),
+            'description' => $request->input('description'),
+        ]);
 
-    ]);
+        $types = Type::where('name', $request->input('type'))->get();
+        $product->types()->sync($types);
 
-    //  dd($product::all());
+        return redirect(url('/'))->with('success', 'Product updated successfully');
+    }
 
-    // Redirect or return a response
-    return redirect('/')->with('success', 'Product added successfully.');    }
+    
+    public function delete(Request $request) {
+        $product = Product::findOrFail($request->input('id'));
+
+        $product->types()->detach();
+        $product->delete();
+
+        return redirect(url('/'))->with('success', 'Product deleted successfully');
+    }
 }
